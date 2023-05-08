@@ -18,7 +18,7 @@
         }
         label {
             display: block;
-            margin-bottom: 10px;
+            margin-bottom: 100px;
             font-size: 18px;
             color: #555;
         }
@@ -59,6 +59,28 @@
         button[type="button"]:hover {
             background-color: #005555;
         }
+        .field-set {
+            display: flex;
+            flex-direction: row;
+
+            }
+
+            .field-set label,
+            .field-set input {
+            font-size: 20 px;
+            margin: 5px;
+            width: 100px;
+            }
+            .common-fields label,
+            .common-fields input {
+            font-size: 14px;
+            margin: 5px;
+            width: 100px;
+            display: flex;
+            flex-direction: row;
+
+            }
+
     </style>
     <script>
         function setCurrentDateTime() {
@@ -77,7 +99,7 @@
             timeInput.value = now.toTimeString().substr(0, 5);
         }
         function addFields() {
-            // Create new input elements
+    // Create new input elements
             var newItemNameInput = document.createElement('input');
             newItemNameInput.type = 'text';
             newItemNameInput.name = 'item_name';
@@ -97,51 +119,61 @@
             newNotesInput.type = 'text';
             newNotesInput.name = 'notes';
 
-            // Add new input elements to form
-            var form = document.querySelector('form');
-            form.appendChild(newItemNameInput);
-            form.appendChild(newQuantityAsNumberInput);
-            form.appendChild(newQuantityAsWeightInput);
-            form.appendChild(newNotesInput);
-}
+            // Create new field set
+            var newFieldSet = document.createElement('div');
+            newFieldSet.className = 'field-set';
+            newFieldSet.appendChild(newItemNameInput);
+            newFieldSet.appendChild(newQuantityAsNumberInput);
+            newFieldSet.appendChild(newQuantityAsWeightInput);
+            newFieldSet.appendChild(newNotesInput);
 
+            // Add new field set to form
+            var form = document.querySelector('form');
+            form.appendChild(newFieldSet);
+}
 
     </script>
 </head>
 <body onload="setCurrentDateTime()">
     <h1>Add Transfer Data</h1>
     <form method="POST" action="/insert">
-        <label for="date">Date:</label>
-        <input type="date" id="date" name="date" required>
-        
-        <label for="time">Time:</label>
-        <input type="time" id="time" name="time" required>
-        
-        <label for="flow_type">Flow Type:</label>
-        <input type="text" id="flow_type" name="flow_type" required>
-        
-        <label for="source_or_destination">Source or Destination:</label>
-        <input type="text" id="source_or_destination" name="source_or_destination" required>
+        <div class="common-fields">
+            <label for="date">Date:</label>
+            <input type="date" id="date" name="date" required>
     
-         <label for="inventory_name">Inventory Name:</label>
-         <input type="text" id="inventory_name" name="inventory_name" required>
+            <label for="time">Time:</label>
+            <input type="time" id="time" name="time" required>
     
-         <!-- Add first set of fields for item name, quantity as number, quantity as weight and notes -->
-         <label for="item_name">Item Name:</label>
-         <input type="text" id="item_name" name="item_name" required>
+            <label for="flow_type">Flow Type:</label>
+            <input type="text" id="flow_type" name="flow_type" required>
     
-         <label for="quantity_as_number">Quantity as Number:</label>
-         <input type="number" id="quantity_as_number" name="quantity_as_number" required>
+            <label for="source_or_destination">Source or Destination:</label>
+            <input type="text" id="source_or_destination" name="source_or_destination" required>
     
-         <label for="quantity_as_weight">Quantity as Weight:</label>
-         <input type="number" id="quantity_as_weight" name="quantity_as_weight" required>
+            <label for="inventory_name">Inventory Name:</label>
+            <input type="text" id="inventory_name" name="inventory_name" required>
+        </div>
     
-         <label for="notes">Notes:</label>
-         <input type="text" id="notes" name="notes">
-         <input type="submit" value="Insert">
-         <!-- Add button to add more fields -->
-         <button type="button" onclick="addFields()">Add more fields</button>
-
+        <!-- Add first set of fields for item name, quantity as number, quantity as weight and notes -->
+        <div class="field-set">
+            <label for="item_name">Item Name:</label>
+            <input type="text" id="item_name" name="item_name" required>
+    
+            <label for="quantity_as_number">Quantity as Number:</label>
+            <input type="number" id="quantity_as_number" name="quantity_as_number" required>
+    
+            <label for="quantity_as_weight">Quantity as Weight:</label>
+            <input type="number" id="quantity_as_weight" name="quantity_as_weight" required>
+    
+            <label for="notes">Notes:</label>
+            <input type="text" id="notes" name="notes">
+        </div>
+    
+        <!-- Add button to add more fields -->
+        <button type="button" onclick="addFields()">Add more fields</button>
+    
+        <!-- Add submit button -->
+        <input type="submit" value="Insert">
     </form>
 </body>
 </html>
