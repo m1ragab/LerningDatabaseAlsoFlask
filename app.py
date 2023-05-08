@@ -28,29 +28,24 @@ def index():
 def insert():
     if request.method == 'POST':
         # Retrieve data from all sets of fields
-        dates = request.form.getlist('date')
-        times = request.form.getlist('time')
         item_names = request.form.getlist('item_name')
         quantities_as_number = request.form.getlist('quantity_as_number')
         quantities_as_weight = request.form.getlist('quantity_as_weight')
-        inventory_names = request.form.getlist('inventory_name')
-        flow_types = request.form.getlist('flow_type')
-        sources_or_destinations = request.form.getlist('source_or_destination')
         notes_list = request.form.getlist('notes')
+        date = request.form['date']
+        time = request.form['time']
+        flow_type = request.form['flow_type']
+        source_or_destination = request.form['source_or_destination']
+        inventory_name = request.form['inventory_name']
 
         # Insert data into database
         db = get_db()
         cursor = db.cursor()
 
-        for i in range(len(dates)):
-            date = dates[i]
-            time = times[i]
+        for i in range(len(item_names)):
             item_name = item_names[i]
             quantity_as_number = quantities_as_number[i]
             quantity_as_weight = quantities_as_weight[i]
-            inventory_name = inventory_names[i]
-            flow_type = flow_types[i]
-            source_or_destination = sources_or_destinations[i]
             notes = notes_list[i]
 
             cursor.execute('INSERT INTO InventoryFlowInOut (ItemName, QuantityAsNumber, QuantityAsWeight, Date, Time, InventoryName, FlowType, SourceOrDestination, Notes) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)',
@@ -61,6 +56,7 @@ def insert():
         return 'Data inserted successfully!'
     else:
         return render_template('form.html')
+
 
 
 if __name__ == '__main__':

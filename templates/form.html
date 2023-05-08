@@ -77,63 +77,34 @@
             timeInput.value = now.toTimeString().substr(0, 5);
         }
         function addFields() {
-    // Create new input elements
-    var newDateInput = document.createElement('input');
-    newDateInput.type = 'date';
-    newDateInput.name = 'date';
-    newDateInput.required = true;
+            // Create new input elements
+            var newItemNameInput = document.createElement('input');
+            newItemNameInput.type = 'text';
+            newItemNameInput.name = 'item_name';
+            newItemNameInput.required = true;
 
-    var newTimeInput = document.createElement('input');
-    newTimeInput.type = 'time';
-    newTimeInput.name = 'time';
-    newTimeInput.required = true;
+            var newQuantityAsNumberInput = document.createElement('input');
+            newQuantityAsNumberInput.type = 'number';
+            newQuantityAsNumberInput.name = 'quantity_as_number';
+            newQuantityAsNumberInput.required = true;
 
-    var newItemNameInput = document.createElement('input');
-    newItemNameInput.type = 'text';
-    newItemNameInput.name = 'item_name';
-    newItemNameInput.required = true;
+            var newQuantityAsWeightInput = document.createElement('input');
+            newQuantityAsWeightInput.type = 'number';
+            newQuantityAsWeightInput.name = 'quantity_as_weight';
+            newQuantityAsWeightInput.required = true;
 
-    var newQuantityAsNumberInput = document.createElement('input');
-    newQuantityAsNumberInput.type = 'number';
-    newQuantityAsNumberInput.name = 'quantity_as_number';
-    newQuantityAsNumberInput.required = true;
+            var newNotesInput = document.createElement('input');
+            newNotesInput.type = 'text';
+            newNotesInput.name = 'notes';
 
-    var newQuantityAsWeightInput = document.createElement('input');
-    newQuantityAsWeightInput.type = 'number';
-    newQuantityAsWeightInput.name = 'quantity_as_weight';
-    newQuantityAsWeightInput.required = true;
-
-    var newInventoryNameInput = document.createElement('input');
-    newInventoryNameInput.type = 'text';
-    newInventoryNameInput.name = 'inventory_name';
-    newInventoryNameInput.required = true;
-
-    var newFlowTypeInput = document.createElement('input');
-    newFlowTypeInput.type = 'text';
-    newFlowTypeInput.name = 'flow_type';
-    newFlowTypeInput.required = true;
-
-    var newSourceOrDestinationInput = document.createElement('input');
-    newSourceOrDestinationInput.type = 'text';
-    newSourceOrDestinationInput.name = 'source_or_destination';
-    newSourceOrDestinationInput.required = true;
-
-    var newNotesInput = document.createElement('input');
-    newNotesInput.type = 'text';
-    newNotesInput.name = 'notes';
-
-    // Add new input elements to form
-    var form = document.querySelector('form');
-    form.appendChild(newDateInput);
-    form.appendChild(newTimeInput);
-    form.appendChild(newItemNameInput);
-    form.appendChild(newQuantityAsNumberInput);
-    form.appendChild(newQuantityAsWeightInput);
-    form.appendChild(newInventoryNameInput);
-    form.appendChild(newFlowTypeInput);
-    form.appendChild(newSourceOrDestinationInput);
-    form.appendChild(newNotesInput);
+            // Add new input elements to form
+            var form = document.querySelector('form');
+            form.appendChild(newItemNameInput);
+            form.appendChild(newQuantityAsNumberInput);
+            form.appendChild(newQuantityAsWeightInput);
+            form.appendChild(newNotesInput);
 }
+
 
     </script>
 </head>
@@ -142,25 +113,34 @@
     <form method="POST" action="/insert">
         <label for="date">Date:</label>
         <input type="date" id="date" name="date" required>
+        
         <label for="time">Time:</label>
         <input type="time" id="time" name="time" required>
-        <button type="button" onclick="refreshDateTime()">Refresh</button>
-        <label for="item_name">Item Name:</label>
-        <input type="text" id="item_name" name="item_name" required>
-        <label for="quantity_as_number">Quantity as Number:</label>
-        <input type="number" id="quantity_as_number" name="quantity_as_number" required>
-        <label for="quantity_as_weight">Quantity as Weight:</label>
-        <input type="number" id="quantity_as_weight" name="quantity_as_weight" required>
-        <label for="inventory_name">Inventory Name:</label>
-        <input type="text" id="inventory_name" name="inventory_name" required>
+        
         <label for="flow_type">Flow Type:</label>
         <input type="text" id="flow_type" name="flow_type" required>
+        
         <label for="source_or_destination">Source or Destination:</label>
         <input type="text" id="source_or_destination" name="source_or_destination" required>
-        <label for="notes">Notes:</label>
-        <input type="text" id="notes" name="notes" required>
-        <input type="submit" value="Add Transfer">
-        <button type="button" onclick="addFields()">Add more fields</button>
+    
+         <label for="inventory_name">Inventory Name:</label>
+         <input type="text" id="inventory_name" name="inventory_name" required>
+    
+         <!-- Add first set of fields for item name, quantity as number, quantity as weight and notes -->
+         <label for="item_name">Item Name:</label>
+         <input type="text" id="item_name" name="item_name" required>
+    
+         <label for="quantity_as_number">Quantity as Number:</label>
+         <input type="number" id="quantity_as_number" name="quantity_as_number" required>
+    
+         <label for="quantity_as_weight">Quantity as Weight:</label>
+         <input type="number" id="quantity_as_weight" name="quantity_as_weight" required>
+    
+         <label for="notes">Notes:</label>
+         <input type="text" id="notes" name="notes">
+         <input type="submit" value="Insert">
+         <!-- Add button to add more fields -->
+         <button type="button" onclick="addFields()">Add more fields</button>
 
     </form>
 </body>
