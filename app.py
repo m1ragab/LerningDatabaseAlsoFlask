@@ -54,7 +54,7 @@ def insert():
 
         return 'Data inserted successfully!'
     else:
-        return render_template('form1 copy.html')
+        return render_template('form1 copy 2last.html')
 
 
 
