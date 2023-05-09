@@ -25,6 +25,9 @@ def index():
 
 @app.route('/insert', methods=['GET', 'POST'])
 def insert():
+    db = get_db()
+    cursor = db.cursor()
+
     if request.method == 'POST':
         # Retrieve data from all sets of fields
         item_names = request.form.getlist('item_name')
@@ -38,9 +41,6 @@ def insert():
         inventory_name = request.form['inventory_name']
 
         # Insert data into database
-        db = get_db()
-        cursor = db.cursor()
-
         for i in range(len(item_names)):
             item_name = item_names[i]
             quantity_as_number = quantities_as_number[i]
@@ -52,18 +52,17 @@ def insert():
 
         db.commit()
 
-        return 'Data inserted successfully!'
+        # Retrieve inserted data from database
+        cursor.execute('SELECT * FROM InventoryFlowInOut ORDER BY FlowID DESC LIMIT ?', (len(item_names),))
+        inserted_data = cursor.fetchall()
     else:
-        # Retrieve list of item names from database
-        db = get_db()
-        cursor = db.cursor()
-        cursor.execute('SELECT DISTINCT [ItemName] FROM Item_old')
-        item_names = [row[0] for row in cursor.fetchall()]
-        cursor.execute('SELECT DISTINCT [InventoryName] FROM Inventory')
-        inventory_names = [row[0] for row in cursor.fetchall()]
+        inserted_data = None
 
+    # Retrieve list of item names from database
+    cursor.execute('SELECT DISTINCT [ItemName] FROM Item_old')
+    item_names = [row[0] for row in cursor.fetchall()]
 
-        return render_template('form1 copy 2last.html', item_names=item_names, inventory_names=inventory_names)
+    return render_template('form1 copy 2last.html', inserted_data=inserted_data, item_names=item_names)
 
 
 

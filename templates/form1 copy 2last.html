@@ -1,3 +1,99 @@
+<!-- Add this code to the head section of your HTML template -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+        background-color: #f1f1f1;
+    }
+    header {
+        background-color: #333;
+        color: white;
+        padding: 20px;
+        text-align: center;
+    }
+    header h1 {
+        margin: 0;
+    }
+    main {
+        padding: 20px;
+        max-width: 800px;
+        margin: 0 auto;
+    }
+    table {
+        border-collapse: collapse;
+        width: 100%;
+    }
+    th, td {
+        border: 1px solid #ddd;
+        padding: 8px;
+        text-align: left;
+    }
+    tr:nth-child(even) {
+        background-color: #f2f2f2;
+    }
+    th {
+        background-color: #4CAF50;
+        color: white;
+    }
+    input[type=text], input[type=number], input[type=datetime-local], select {
+        width: 100%;
+        padding: 12px 20px;
+        margin: 8px 0;
+        box-sizing: border-box;
+        border: 2px solid #ccc;
+        border-radius: 4px;
+    }
+    input[type=text]:focus, input[type=number]:focus, input[type=datetime-local]:focus, select:focus {
+        border: 2px solid #555;
+    }
+    .button {
+        display: inline-block;
+        padding: 6px 10px;
+        font-size: 14px;
+        cursor: pointer;
+        text-align: center;
+        text-decoration: none;
+        outline: none;
+        color: #fff;
+        background-color: #4CAF50;
+        border: none;
+        border-radius: 15px;
+    }
+    .button:hover {background-color:#3e8e41}
+    .button-remove {
+      background-color:#f44336
+    }
+    .button-remove:hover{
+      background-color:#da190b
+    }
+    footer {
+      position:fixed; 
+      bottom: 0;
+      width:100%; 
+      height:auto; 
+      background-color:#333; 
+      color:white; 
+      text-align:center; 
+      padding-top:auto; 
+      padding-bottom:auto
+      
+     }
+     aside {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+  }
+     
+</style>
+<header>
+    <h1>Company Name</h1>
+</header>
+<main>
+
 <form action="/insert" method="POST" id="myForm">
     <label for="flow_type">Flow Type:</label>
     <input type="text" id="flow_type" name="flow_type"><br><br>
@@ -40,12 +136,40 @@
         </tr>
     </table>
     
+            <button type="button" class="button" onclick="addInputSet()"><i class="fa fa-plus"></i> Add another set</button><br><br>
+            <input type="submit" value="Submit" class="button">
+        </form>
 
-    <button type="button" onclick="addInputSet()">Add another set</button><br><br>
 
-    <input type="submit" value="Submit">
-</form>
+{% if inserted_data %}
+<table>
+    <tr>
+        <th>ID</th>
+        <th>Item Name</th>
+        <th>Quantity as Number</th>
+        <th>Quantity as Weight</th>
+        <th>Date</th>
+        <th>Time</th>
+        <th>Inventory Name</th>
+        <th>Flow Type</th>
+        <th>Source or Destination</th>
+        <th>Notes</th>
+    </tr>
+    {% for row in inserted_data %}
+    <tr>
+        {% for cell in row %}
+        <td>{{ cell }}</td>
+        {% endfor %}
+    </tr>
+    {% endfor %}
+</table>
+{% endif %}
 
+</main>
+<footer>
+    <p>Copyright &copy; Company Name</p>
+ </footer>
+ 
 <script>
     let inputSetCount = 1;
     function addInputSet() {
@@ -60,8 +184,12 @@
         <td><input type="number" class="quantity_as_weight" name="quantity_as_weight"></td>
         <td><input type="text" class="notes" name="notes"></td>
 
-        <td><button type="button" onclick="removeInputSet(this)">Remove</button></td>
+        <td><button type="button" class="button button-remove" 
+    onclick="removeInputSet(this)"><i class="fa fa-minus"></i> Remove</button></td>
         `;
+            // Scroll to the bottom of the page
+    window.scrollTo(0, document.body.scrollHeight);
+
 }
 
 function removeInputSet(button) {
@@ -71,3 +199,6 @@ function removeInputSet(button) {
 
 
 </script>
+<footer>
+    <p>Copyright &copy; Company Name</p>
+ </footer>
