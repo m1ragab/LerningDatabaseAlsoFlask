@@ -54,7 +54,16 @@ def insert():
 
         return 'Data inserted successfully!'
     else:
-        return render_template('form1 copy 2last.html')
+        # Retrieve list of item names from database
+        db = get_db()
+        cursor = db.cursor()
+        cursor.execute('SELECT DISTINCT [ItemName] FROM Item_old')
+        item_names = [row[0] for row in cursor.fetchall()]
+        cursor.execute('SELECT DISTINCT [InventoryName] FROM Inventory')
+        inventory_names = [row[0] for row in cursor.fetchall()]
+
+
+        return render_template('form1 copy 2last.html', item_names=item_names, inventory_names=inventory_names)
 
 
 

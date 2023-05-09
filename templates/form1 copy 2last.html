@@ -2,19 +2,23 @@
     <label for="flow_type">Flow Type:</label>
     <input type="text" id="flow_type" name="flow_type"><br><br>
     <label for="inventory_name">Inventory Name:</label>
-    <input type="text" id="inventory_name" name="inventory_name"><br><br>
+    <input type="text" id="inventory_name" name="inventory_name"list="inventory_names"><br><br>
     <label for="source_or_destination">Source or Destination:</label>
     <input type="text" id="source_or_destination" name="source_or_destination"><br><br>
     <label for="date">Date:</label>
     <input type="date" id="date" name="date"><br><br>
     <label for="time">Time:</label>
     <input type="time" id="time" name="time"><br><br>
-    <datalist id="itemNames">
-        <option value="Item 1">
-        <option value="Item 2">
-        <option value="Item 3">
-        <!-- Add more options here -->
-    </datalist>
+<datalist id="itemNames">
+    {% for itemName in item_names %}
+    <option value="{{ itemName }}">
+    {% endfor %}
+</datalist>
+    <datalist id="inventory_names">
+    {% for inventoryName in inventory_names %}
+    <option value="{{ inventoryName }}">
+    {% endfor %}
+</datalist>
     
 
     <table id="inputSets">
@@ -64,5 +68,6 @@ function removeInputSet(button) {
     let row = button.parentNode.parentNode;
     row.parentNode.removeChild(row);
 }
+
 
 </script>
