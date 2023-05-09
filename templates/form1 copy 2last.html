@@ -9,7 +9,13 @@
     <input type="date" id="date" name="date"><br><br>
     <label for="time">Time:</label>
     <input type="time" id="time" name="time"><br><br>
-
+    <datalist id="itemNames">
+        <option value="Item 1">
+        <option value="Item 2">
+        <option value="Item 3">
+        <!-- Add more options here -->
+    </datalist>
+    
 
     <table id="inputSets">
         <tr>
@@ -22,13 +28,14 @@
         </tr>
         <tr class="inputSet">
             <td>1</td>
-            <td><input type="text" class="item_name" name="item_name"></td>
+            <td><input type="text" class="item_name" name="item_name" list="itemNames"></td>
             <td><input type="number" class="quantity_as_number" name="quantity_as_number"></td>
             <td><input type="number" class="quantity_as_weight" name="quantity_as_weight"></td>
             <td><input type="text" class="notes" name="notes"></td>
             <td><button type="button" onclick="removeInputSet(this)">Remove</button></td>
         </tr>
     </table>
+    
 
     <button type="button" onclick="addInputSet()">Add another set</button><br><br>
 
@@ -39,13 +46,12 @@
     let inputSetCount = 1;
     function addInputSet() {
         inputSetCount++;
-
     let inputSets = document.getElementById('inputSets');
     let newRow = inputSets.insertRow(-1);
     newRow.className = 'inputSet';
     newRow.innerHTML = `
         <td>${inputSetCount}</td>
-        <td><input type="text" class="item_name" name="item_name"></td>
+        <td><input type="text" class="item_name" name="item_name" list="itemNames"></td>
         <td><input type="number" class="quantity_as_number" name="quantity_as_number"></td>
         <td><input type="number" class="quantity_as_weight" name="quantity_as_weight"></td>
         <td><input type="text" class="notes" name="notes"></td>
