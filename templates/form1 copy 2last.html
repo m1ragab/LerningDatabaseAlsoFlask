@@ -7,7 +7,10 @@
         margin: 0;
         padding: 0;
         background-color: #f1f1f1;
+        padding-bottom: 100px; /* Adjust this value as needed */
+
     }
+
     header {
         background-color: #333;
         color: white;
@@ -70,17 +73,16 @@
       background-color:#da190b
     }
     footer {
-      position:fixed; 
-      bottom: 0;
-      width:100%; 
-      height:auto; 
-      background-color:#333; 
-      color:white; 
-      text-align:center; 
-      padding-top:auto; 
-      padding-bottom:auto
-      
-     }
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    height: auto;
+    background-color: #333;
+    color: white;
+    text-align: center;
+    padding-top: auto;
+    padding-bottom: auto;
+  }
      aside {
     position: absolute;
     bottom: 0;
@@ -164,7 +166,10 @@
     {% endfor %}
 </table>
 {% endif %}
-
+<a href="/print-pdf">
+    <button>Download PDF</button>
+  </a>
+  
 </main>
 <footer>
     <p>Copyright &copy; Company Name</p>
