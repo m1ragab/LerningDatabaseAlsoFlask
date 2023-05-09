@@ -17,7 +17,6 @@ def close_connection(exception):
     db = getattr(g, '_database', None)
     if db is None:
         db = g._database = sqlite3.connect(DATABASE)
-        db.execute("PRAGMA foreign_keys = ON")
     return db
 
 @app.route('/')
@@ -55,7 +54,7 @@ def insert():
 
         return 'Data inserted successfully!'
     else:
-        return render_template('form.html')
+        return render_template('form1 copy.html')
 
 
 

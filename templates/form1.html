@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Add Transfer Data</title>
+    <style>
+        body {
+            background-color: #f2f2f2;
+            font-family: Arial, sans-serif;
+        }
+        h1 {
+            color: #008080;
+            font-size: 32px;
+            margin-bottom: 20px;
+        }
+        table {
+            margin: 0 auto;
+            border-collapse: collapse;
+            width: 100%;
+            max-width: 500px;
+        }
+        td, th {
+            padding: 10px;
+            border: 1px solid #ddd;
+            text-align: left;
+            font-size: 18px;
+        }
+        input[type="date"],
+        input[type="time"],
+        input[type="number"], 
+        input[type="text"] {
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            font-size: 18px;
+            width: 100%;
+            box-sizing: border-box;
+        }
+        input[type="submit"],
+        button[type="button"] {
+            background-color: #008080;
+            color: #fff;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            font-size: 18px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        input[type="submit"]:hover,
+        button[type="button"]:hover {
+            background-color: #005555;
+        }
+    </style>
+</head>
+<body>
+    <h1>Add Transfer Data</h1>
+    <form method="POST" action="/insert">
+        <table>
+            <thead>
+                <tr>
+                    <th colspan="2">Common Fields</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><label for="date">Date:</label></td>
+                    <td><input type="date" id="date" name="date" required></td>
+                </tr>
+                <tr>
+                    <td><label for="time">Time:</label></td>
+                    <td><input type="time" id="time" name="time" required></td>
+                </tr>
+                <tr>
+                    <td><label for="flow_type">Flow Type:</label></td>
+                    <td><input type="text" id="flow_type" name="flow_type" required></td>
+                </tr>
+                <tr>
+                    <td><label for="source_or_destination">Source or Destination:</label></td>
+                    <td><input type="text" id="source_or_destination" name="source_or_destination" required></td>
+                </tr>
+                <tr>
+                    <td><label for="inventory_name">Inventory Name:</label></td>
+                    <td><input type="text" id="inventory_name" name="inventory_name" required></td>
+                </tr>
+            </tbody>
+        </table>
+        <br>
+        <table id="item-fields">
+            <thead>
+                <tr>
+                    <th>Item Name</th>
+                    <th>Quantity as Number</th>
+                    <th>Quantity as Weight</th>
+                    <th>Notes</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><input type="text" name="item_name[]" required></td>
+                    <td><input type="number" name="quantity_as_number[]" required></td>
+                    <td><input type="number" name="quantity_as_weight[]" required></td>
+                    <td><input type="text" name="notes[]"></td>
+                    <td><button type="button" onclick="addFields()">+</button></td>
+                </tr>
+            </tbody>
+        </table>
+        <br>
+        <input type="submit" value="Insert">
+    </form>
+
+    <script>
+        function addFields() {
+            var newRow = document.createElement('tr');
+            newRow.innerHTML = `
+                <td><input type="text" name="item_name[]" required></td>
+                <td><input type="number" name="quantity_as_number[]" required></td>
+                <td><input type="number" name="quantity_as_weight[]" required></td>
+                <td><input type="text" name="notes[]"></td>
+                <td><button type="button" onclick="deleteRow(this)">-</button></td>
+            `;
+            document.getElementById('item-fields').appendChild(newRow);
+        }
+
+        function deleteRow(btn) {
+            var row = btn.parentNode.parentNode;
+            row.parentNode.removeChild(row);
+        }
+    </script>
+</body>
+</html>
