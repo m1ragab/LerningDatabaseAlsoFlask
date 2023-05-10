@@ -1,8 +1,7 @@
 import sqlite3
 from flask import Flask, request, g
 from flask import Flask, render_template
-
-
+import pdfkit
 from reportlab.lib.pagesizes import letter
 from reportlab.platypus import SimpleDocTemplate, Table
 from reportlab.lib import colors
@@ -11,6 +10,10 @@ from reportlab.platypus import SimpleDocTemplate, Table, Paragraph, Image
 from reportlab.platypus.tables import TableStyle
 from reportlab.lib.styles import getSampleStyleSheet
 from flask import send_file
+from flask import make_response
+
+
+
 
 app = Flask(__name__)
 
@@ -75,7 +78,70 @@ def insert():
 
     return render_template('form1 copy 2last.html', inserted_data=inserted_data, item_names=item_names)
 
+@app.route('/download')
+def download():
+    # Get a database connection
+    db = get_db()
+    path_wkthmltopdf = r'C:\Program Files\wkhtmltopdf\bin\wkhtmltopdf.exe'
+    # Create a configuration object for pdfkit
+    config = pdfkit.configuration(wkhtmltopdf=path_wkthmltopdf)
+    db = get_db()
+    cursor = db.cursor()
 
+    # Retrieve list of item names from database
+    cursor.execute('SELECT DISTINCT [ItemName] FROM Item_old')
+    item_names = [row[0] for row in cursor.fetchall()]
+    
+    # Retrieve data from database
+    cursor.execute('SELECT * FROM InventoryFlowInOut WHERE FlowID = (SELECT MAX(FlowID) FROM InventoryFlowInOut)')
+    data = cursor.fetchall()
+    
+    # Render the HTML template with the data from the database
+    html = render_template('table.html', data=data)
+    
+    # Create a PDF file from the HTML template
+    pdf = pdfkit.from_string(html, False,configuration=config)
+    
+    # Create a Flask response object
+    response = make_response(pdf)
+    
+    # Set the appropriate headers to trigger a download
+    response.headers['Content-Disposition'] = 'attachment; filename=data.pdf'
+    response.headers['Content-type'] = 'application/pdf'
+    
+    return response
+
+# @app.route('/pdf')
+# def hello():
+#     # Set the path to the wkhtmltopdf executable
+#     path_wkthmltopdf = r'C:\Program Files\wkhtmltopdf\bin\wkhtmltopdf.exe'
+#     # Create a configuration object for pdfkit
+#     config = pdfkit.configuration(wkhtmltopdf=path_wkthmltopdf)
+
+#     # Load the HTML content from a file using Flask's render_template function
+#     html = render_template('pdffile.html')
+    
+#     # Convert the HTML to a PDF using pdfkit
+#     pdf = pdfkit.from_string(html, False, configuration=config)
+
+#     # Create a response object for the generated PDF
+#     response = make_response(pdf)
+#     response.headers['Content-Type'] = 'application/pdf'
+#     response.headers['Content-Disposition'] = 'inline; filename=output.pdf'
+    
+#     # Return the response
+#     return response
+# @app.route('/pdf2')
+# def pdf2():
+#     # Get a database connection
+#     db = get_db()
+    
+#     # Query the database to retrieve data from the InventoryFlowInOut table
+#     cursor = db.execute('SELECT * FROM InventoryFlowInOut')
+#     data = cursor.fetchall()
+    
+#     # Render an HTML template to display the data in a table
+#     return render_template('table.html', data=data)
 
 
 if __name__ == '__main__':
