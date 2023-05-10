@@ -53,6 +53,7 @@ def insert():
         flow_type = request.form['flow_type']
         source_or_destination = request.form['source_or_destination']
         inventory_name = request.form['inventory_name']
+        BatchId = request.form['BatchId']
 
         # Insert data into database
         for i in range(len(item_names)):
@@ -61,8 +62,8 @@ def insert():
             quantity_as_weight = quantities_as_weight[i]
             notes = notes_list[i]
 
-            cursor.execute('INSERT INTO InventoryFlowInOut (ItemName, QuantityAsNumber, QuantityAsWeight, Date, Time, InventoryName, FlowType, SourceOrDestination, Notes) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)',
-                            (item_name, quantity_as_number, quantity_as_weight, date, time, inventory_name, flow_type, source_or_destination, notes))
+            cursor.execute('INSERT INTO InventoryFlowInOut (BatchId,ItemName, QuantityAsNumber, QuantityAsWeight, Date, Time, InventoryName, FlowType, SourceOrDestination, Notes) VALUES (?,?, ?, ?, ?, ?, ?, ?, ?, ?)',
+                            (BatchId,item_name, quantity_as_number, quantity_as_weight, date, time, inventory_name, flow_type, source_or_destination, notes))
 
         db.commit()
 
@@ -88,12 +89,11 @@ def download():
     db = get_db()
     cursor = db.cursor()
 
-    # Retrieve list of item names from database
-    cursor.execute('SELECT DISTINCT [ItemName] FROM Item_old')
-    item_names = [row[0] for row in cursor.fetchall()]
     
     # Retrieve data from database
-    cursor.execute('SELECT * FROM InventoryFlowInOut WHERE FlowID = (SELECT MAX(FlowID) FROM InventoryFlowInOut)')
+    # cursor.execute('SELECT ItemName,QuantityAsNumber,QuantityAsWeight,Notes FROM InventoryFlowInOut WHERE BatchId = (SELECT MAX(BatchId) FROM InventoryFlowInOut)')
+    # data = cursor.fetchall()
+    cursor.execute('SELECT * FROM InventoryFlowInOut WHERE BatchId = (SELECT MAX(BatchId) FROM InventoryFlowInOut)')
     data = cursor.fetchall()
     
     # Render the HTML template with the data from the database

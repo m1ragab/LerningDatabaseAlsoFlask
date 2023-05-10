@@ -1,44 +1,71 @@
-<!DOCTYPE html>
-<html>
-<head>
-<style>
-table, th, td {
-  border: 1px solid black;
-}
-</style>
-</head>
-<body>
 
-<h2>Inventory Flow In/Out</h2>
+<!DOCTYPE html> 
+<html> 
+    <head> 
+        <style> 
+        table, th, td 
+        { border: 1px solid black;
+         } 
+    .box 
+    { 
+        border: 2px solid black; 
+        padding: 10px; 
+        margin: 10px; 
+    }
+ table, th, td { 
+    border: 1px solid black; width: 100%; /* add this line */ 
+    border-collapse: collapse;
 
-<table>
-  <tr>
-    <th>ID</th>
-    <th>Item Name</th>
-    <th>Quantity (Number)</th>
-    <th>Quantity (Weight)</th>
-    <th>Date</th>
-    <th>Time</th>
-    <th>Inventory Name</th>
-    <th>Flow Type</th>
-    <th>Source/Destination</th>
-    <th>Notes</th>
-  </tr>
-  {% for row in data %}
-  <tr>
-    <td>{{ row[0] }}</td>
-    <td>{{ row[1] }}</td>
-    <td>{{ row[2] }}</td>
-    <td>{{ row[3] }}</td>
-    <td>{{ row[4] }}</td>
-    <td>{{ row[5] }}</td>
-    <td>{{ row[6] }}</td>
-    <td>{{ row[7] }}</td>
-    <td>{{ row[8] }}</td>
-    <td>{{ row[9] }}</td>
-  </tr>
-  {% endfor %}
-</table>
+} 
+ </style> 
+ </head> 
+ <body>
 
-</body>
-</html>
+    <div class="box">
+        <table style="table-layout: fixed; border: none;">
+            <tr>
+            <td style= "padding:10px;border: dotted;width: 50%;" >Email: company@example.com</td>
+          </tr>
+          <tr>
+            <td style= "padding:10px;border: dotted;width: 50%;" >Phone: +1-234-567-8900</td>
+            <td  style="white-space: nowrap; padding: 10px; border: dotted; width: 50%;" >BatchId: {{ data[0][10] }}</td>
+          </tr>
+          <tr>
+            <td  style= "padding:10px;border: dotted;width: 50%;">Date and Time: {{ data[0][4] }} {{ data[0][5] }}</td>
+            <td  style="white-space: nowrap; padding: 10px; border: dotted; width: 50%;"  >Source or Destination: {{ data[0][8] }}</td>
+          </tr>
+          <tr>
+            <td style= "padding:10px;border: dotted;width: 50%;">Inventory Name: {{ data[0][6] }}</td>
+            <td style="white-space: nowrap; padding: 10px; border: dotted; width: 50%;">Flow Type: {{ data[0][7] }}</td>
+          </tr>
+        </table>
+      </div>
+      
+<!-- <div class="box"> 
+<h2>Company Name</h2> 
+<p>Email: company@example.com</p> 
+<p>Phone: +1-234-567-8900</p> 
+<p>BatchId: {{ data[0][10] }}</p>
+<p>Date and Time: {{ data[0][4] }} {{ data[0][5] }}</p>
+ <p>Source or Destination: {{ data[0][8] }}</p> 
+ <p>Inventory Name: {{ data[0][6] }}</p> 
+ <p>Flow Type: {{ data[0][7] }}</p>
+ </div> -->
+ <h2>Inventory Flow In/Out</h2>  
+ <table> 
+    <tr> 
+        <th style="width: 25%;">Item Name</th> 
+        <!-- add this line --> 
+        <th style="width: 20%;">Quantity (Number)
+        </th> <th style="width: 20%;">Quantity (Weight)</th>
+        <th style="width: 35%;">Notes</th> 
+    </tr> {% for row in data %} <tr> 
+        <td style="width: 25%;">{{ row[1] }}</td>
+         <!-- add this line --> 
+        <td style="width: 20%;">{{ row[2] }}</td>
+        <td style="width: 20%;">{{ row[3] }}</td> 
+        <td style="width: 35%;">{{ row[-2] }}</td> 
+    </tr> {% endfor %} 
+</table> 
+</body> 
+</html> 

@@ -103,6 +103,8 @@
     <input type="text" id="inventory_name" name="inventory_name"list="inventory_names"><br><br>
     <label for="source_or_destination">Source or Destination:</label>
     <input type="text" id="source_or_destination" name="source_or_destination"><br><br>
+    <label for="BatchId">Batch ID:</label>
+    <input type="number" id="BatchId" name="BatchId" placeholder="BatchId"><br><br>
     <label for="date">Date:</label>
     <input type="date" id="date" name="date"><br><br>
     <label for="time">Time:</label>
@@ -156,6 +158,7 @@
         <th>Flow Type</th>
         <th>Source or Destination</th>
         <th>Notes</th>
+        <th>BatchId</th>
     </tr>
     {% for row in inserted_data %}
     <tr>
