@@ -35,7 +35,7 @@ def close_connection(exception):
 
 @app.route('/')
 def index():
-    return render_template('form.html')
+    return render_template('index.html')
 
 @app.route('/insert', methods=['GET', 'POST'])
 def insert():
@@ -76,8 +76,11 @@ def insert():
     # Retrieve list of item names from database
     cursor.execute('SELECT DISTINCT [ItemName] FROM Item_old')
     item_names = [row[0] for row in cursor.fetchall()]
+    cursor.execute('SELECT DISTINCT [InventoryName] FROM Inventory')
+    inventory_names = [row[0] for row in cursor.fetchall()]
 
-    return render_template('form1 copy 2last.html', inserted_data=inserted_data, item_names=item_names)
+
+    return render_template('form1 copy 2last.html', inserted_data=inserted_data, item_names=item_names, inventory_names=inventory_names)
 
 @app.route('/download')
 def download():

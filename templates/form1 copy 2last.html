@@ -7,16 +7,10 @@
         margin: 0;
         padding: 0;
         background-color: #f1f1f1;
-        padding-bottom: 100px; /* Adjust this value as needed */
+        text-align: right;
 
     }
 
-    header {
-        background-color: #333;
-        color: white;
-        padding: 20px;
-        text-align: center;
-    }
     header h1 {
         margin: 0;
     }
@@ -24,15 +18,18 @@
         padding: 30px;
         max-width: 800px;
         margin: 0 auto;
+        align-items: center;
     }
     table {
         border-collapse: collapse;
         width: 100%;
+        text-align: right;
     }
     th, td {
         border: 1px solid #ddd;
         padding: 8px;
-        text-align: left;
+        text-align: right;
+        
     }
     tr:nth-child(even) {
         background-color: #f2f2f2;
@@ -65,23 +62,52 @@
         border: none;
         border-radius: 15px;
     }
+    .flow-type-label {
+  font-size: 20px;
+}
+
+.flow-type-options {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  font-size: 20 px;
+}
+
+.flow-type-options input[type="radio"] {
+  margin-right: 5px;
+  font-size: 20 px;
+
+}
+
+.flow-type-options label {
+  display: inline-block;
+}
+
     .button:hover {background-color:#3e8e41}
     .button-remove {
       background-color:#f44336
     }
+
     .button-remove:hover{
-      background-color:#da190b
+      background-color:#492e2c
+    }
+    .button-download {  
+      background-color:#1adfbe
+    }
+    .button-download:hover{
+      background-color:#e71405
     }
     footer {
     position: fixed;
-    bottom: 0;
+    bottom: -10px;
     width: 100%;
-    height: auto;
+    height: 50px;
     background-color: #333;
     color: white;
     text-align: center;
     padding-top: auto;
-    padding-bottom: auto;
+    
+
   }
      aside {
     position: absolute;
@@ -89,26 +115,76 @@
     left: 0;
     right: 0;
   }
-     
-</style>
-<header>
-    <h1>Company Name</h1>
-</header>
-<main>
+  .topnav {
+  overflow: hidden;
+  background-color: #333;
+}
 
+.topnav a {
+  float: left;
+  color: #f2f2f2;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+  font-size: 17px;
+}
+
+.topnav a:hover {
+  background-color: #ddd;
+  color: black;
+}
+
+.topnav a.active {
+  background-color: #04AA6D;
+  color: white;
+}body {
+  margin: 0;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+.topnav a:hover {
+  background-color: #ddd;
+  color: black;
+}
+
+.topnav a.active {
+  background-color: #04AA6D;
+  color: white;
+}
+
+</style>
+
+<div class="topnav">
+    <a href="http://127.0.0.1:5000/">Home</a>
+    <a class="active" href="/insert">new</a>
+    <a href="#contact">Contact</a>
+    <a href="#about">About</a>
+  </div>
+  
+  <div style= "background-color:    #4CAF50; color: white; padding: 20px; text-align: center;">
+    <h1 style="font-family: Arial;">اذن دخول وخروج</h1>
+  </div>
+  
+<main>
+<body onload="setCurrentDateTime()">
 <form action="/insert" method="POST" id="myForm">
-    <label for="flow_type">Flow Type:</label>
-    <input type="text" id="flow_type" name="flow_type"><br><br>
-    <label for="inventory_name">Inventory Name:</label>
+    <label class="flow-type-label" for="flow_type">Flow Type:</label><br>
+    <div class="flow-type-options">
+      <label for="input">Input <input type="radio" id="input" name="flow_type" value="input"></label><br>
+      <label for="output">Output <input type="radio" id="output" name="flow_type" value="output"></label>
+    </div><br><br>
+            <label for="inventory_name">Inventory Name:</label>
     <input type="text" id="inventory_name" name="inventory_name"list="inventory_names"><br><br>
     <label for="source_or_destination">Source or Destination:</label>
     <input type="text" id="source_or_destination" name="source_or_destination"><br><br>
     <label for="BatchId">Batch ID:</label>
     <input type="number" id="BatchId" name="BatchId" placeholder="BatchId"><br><br>
     <label for="date">Date:</label>
-    <input type="date" id="date" name="date"><br><br>
+    <input type="date" id="date" name="date" class="date"><br><br>
     <label for="time">Time:</label>
     <input type="time" id="time" name="time"><br><br>
+    <button type="button " class="button" onclick="refreshDateTime()">Refresh</button>
+
 <datalist id="itemNames">
     {% for itemName in item_names %}
     <option value="{{ itemName }}">
@@ -123,20 +199,21 @@
 
     <table id="inputSets">
         <tr>
-        <th> id</th>
-            <th>Item Name</th>
+            <th></th>
+            <th>Notes</th>
             <th>Quantity as Number</th>
             <th>Quantity as Weight</th>
-            <th>Notes</th>
-            <th></th>
+            <th>Item Name</th>
+            <th > id</th>
         </tr>
         <tr class="inputSet">
-            <td>1</td>
-            <td><input type="text" class="item_name" name="item_name" list="itemNames"></td>
+            <td><button type="button" onclick="removeInputSet(this)">Remove</button></td>
+            <td><input type="text" class="notes" name="notes"></td>
+
             <td><input type="number" class="quantity_as_number" name="quantity_as_number"></td>
             <td><input type="number" class="quantity_as_weight" name="quantity_as_weight"></td>
-            <td><input type="text" class="notes" name="notes"></td>
-            <td><button type="button" onclick="removeInputSet(this)">Remove</button></td>
+            <td ><input type="text" class="item_name" name="item_name" list="itemNames"  ></td>
+            <td>1</td>
         </tr>
     </table>
     
@@ -169,15 +246,17 @@
     {% endfor %}
 </table>
 {% endif %}
+</body>
 <a href="/download">
-    <button>Download PDF</button>
+    <button type="button" class="button button-download"  >Download PDF</button>
+
   </a>
   
 </main>
 <footer>
     <p>Copyright &copy; Company Name</p>
  </footer>
- 
+
 <script>
     let inputSetCount = 1;
     function addInputSet() {
@@ -186,14 +265,14 @@
     let newRow = inputSets.insertRow(-1);
     newRow.className = 'inputSet';
     newRow.innerHTML = `
-        <td>${inputSetCount}</td>
-        <td><input type="text" class="item_name" name="item_name" list="itemNames"></td>
-        <td><input type="number" class="quantity_as_number" name="quantity_as_number"></td>
-        <td><input type="number" class="quantity_as_weight" name="quantity_as_weight"></td>
-        <td><input type="text" class="notes" name="notes"></td>
-
         <td><button type="button" class="button button-remove" 
     onclick="removeInputSet(this)"><i class="fa fa-minus"></i> Remove</button></td>
+        <td><input type="text" class="notes" name="notes"></td>
+        <td><input type="number" class="quantity_as_number" name="quantity_as_number"></td>
+        <td><input type="number" class="quantity_as_weight" name="quantity_as_weight"></td>
+        <td><input type="text" class="item_name" name="item_name" list="itemNames"></td>
+        <td>${inputSetCount}</td>
+
         `;
             // Scroll to the bottom of the page
     window.scrollTo(0, document.body.scrollHeight);
@@ -205,7 +284,20 @@ function removeInputSet(button) {
     row.parentNode.removeChild(row);
 }
 
-
+function setCurrentDateTime() {
+            var now = new Date();
+            var dateInput = document.getElementById("date");
+            var timeInput = document.getElementById("time");
+            dateInput.value = now.toISOString().substr(0, 10);
+            timeInput.value = now.toTimeString().substr(0, 5);
+        }
+function refreshDateTime() {
+    var now = new Date();
+    var dateInput = document.getElementById("date");
+    var timeInput = document.getElementById("time");
+    dateInput.value = now.toISOString().substr(0, 10);
+    timeInput.value = now.toTimeString().substr(0, 5);
+}
 </script>
 <footer>
     <p>Copyright &copy; Company Name</p>
