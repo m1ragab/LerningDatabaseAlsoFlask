@@ -2,6 +2,7 @@ import sqlite3
 from flask import Flask, request, g
 from flask import Flask, render_template
 
+
 from reportlab.lib.pagesizes import letter
 from reportlab.platypus import SimpleDocTemplate, Table
 from reportlab.lib import colors
@@ -73,81 +74,86 @@ def insert():
     item_names = [row[0] for row in cursor.fetchall()]
 
     return render_template('form1 copy 2last.html', inserted_data=inserted_data, item_names=item_names)
-from reportlab.lib.pagesizes import letter
-from reportlab.platypus import SimpleDocTemplate, Table, Paragraph
-from reportlab.lib.styles import getSampleStyleSheet
 
 
 
 
-from reportlab.lib import colors
-from reportlab.lib.pagesizes import letter
-from reportlab.lib.styles import getSampleStyleSheet
-from reportlab.platypus import Image, Paragraph, SimpleDocTemplate, Table, TableStyle
-from flask import send_file
-
-@app.route('/print-pdf')
-def print_pdf():
-    db = get_db()
-    cursor = db.cursor()
-
-    # Get data from database
-    cursor.execute('SELECT * FROM InventoryFlowInOut ORDER BY FlowID DESC')
-    data = cursor.fetchall()
-
-    # Add headers to data
-    headers = ['Item Name', 'Quantity (Number)', 'Quantity (Weight)', 'Date', 'Time', 'Inventory Name', 'Flow Type', 'Source/Destination', 'Notes']
-    data.insert(0, headers)
-
-    # Create PDF
-    pdf = SimpleDocTemplate('output.pdf', pagesize=letter)
-    elements = []
-
-    # Add logo
-    logo = Image('logo.png', width=100, height=100)
-    elements.append(logo)
-
-    # Add company name
-    styles = getSampleStyleSheet()
-    elements.append(Paragraph('Company Name', styles['Heading1']))
-
-    # Add some text
-    elements.append(Paragraph('This is some text.', styles['Normal']))
-
-    # Add table
-    table = Table(data)
-    elements.append(table)
-
-    # Apply formatting to table
-    table.setStyle(TableStyle([
-        ('BACKGROUND', (0, 0), (-1, 0), colors.grey),
-        ('TEXTCOLOR', (0, 0), (-1, 0), colors.whitesmoke),
-        ('ALIGN', (0, 0), (-1, -1), 'CENTER'),
-        ('FONTNAME', (0, 0), (-1, 0), 'Helvetica-Bold'),
-        ('FONTSIZE', (0, 0), (-1, 0), 14),
-        ('BOTTOMPADDING', (0, 0), (-1, 0), 12),
-        ('BACKGROUND', (0, 1), (-1, -1), colors.beige),
-        ('GRID', (0, 0), (-1, -1), 1, colors.black),
-        ('FONTNAME', (0, 0), (-1, 0), 'Helvetica-Bold'),
-        ('BACKGROUND', (0, 0), (-1, 0), colors.darkgrey),
-        ('TEXTCOLOR', (0, 0), (-1, 0), colors.whitesmoke),
-        ('TEXTCOLOR', (0, 1), (-1, -1), colors.black),
-        ('BACKGROUND', (0, 1), (-1, 1), colors.lightgrey),
-        ('FONTNAME', (0, 1), (-1, 1), 'Helvetica-Bold'),
-        ('ALIGN', (0, 1), (-1, 1), 'CENTER'),
-        ('ALIGN', (0, 0), (-1, 0), 'CENTER'),
-        ('TOPPADDING', (0, 0), (-1, 0), 10),
-        ('BOTTOMPADDING', (0, 1), (-1, 1), 10),
-        ('LEFTPADDING', (0, 0), (-1, -1), 8),
-        ('RIGHTPADDING', (0, 0), (-1, -1), 8),
-    ]))
-
-    pdf.build(elements)
-
-    # Send PDF to user
-    return send_file('output.pdf', as_attachment=True)
 if __name__ == '__main__':
     app.run(debug=True)
+
+# from reportlab.lib.pagesizes import letter
+# from reportlab.platypus import SimpleDocTemplate, Table, Paragraph
+# from reportlab.lib.styles import getSampleStyleSheet
+
+
+
+
+# from reportlab.lib import colors
+# from reportlab.lib.pagesizes import letter
+# from reportlab.lib.styles import getSampleStyleSheet
+# from reportlab.platypus import Image, Paragraph, SimpleDocTemplate, Table, TableStyle
+# from flask import send_file
+
+# @app.route('/print-pdf')
+# def print_pdf():
+#     db = get_db()
+#     cursor = db.cursor()
+
+#     # Get data from database
+#     cursor.execute('SELECT * FROM InventoryFlowInOut ORDER BY FlowID DESC')
+#     data = cursor.fetchall()
+
+#     # Add headers to data
+#     headers = ['Item Name', 'Quantity (Number)', 'Quantity (Weight)', 'Date', 'Time', 'Inventory Name', 'Flow Type', 'Source/Destination', 'Notes']
+#     data.insert(0, headers)
+
+#     # Create PDF
+#     pdf = SimpleDocTemplate('output.pdf', pagesize=letter)
+#     elements = []
+
+#     # Add logo
+#     logo = Image('logo.png', width=100, height=100)
+#     elements.append(logo)
+
+#     # Add company name
+#     styles = getSampleStyleSheet()
+#     elements.append(Paragraph('Company Name', styles['Heading1']))
+
+#     # Add some text
+#     elements.append(Paragraph('This is some text.', styles['Normal']))
+
+#     # Add table
+#     table = Table(data)
+#     elements.append(table)
+
+#     # Apply formatting to table
+#     table.setStyle(TableStyle([
+#         ('BACKGROUND', (0, 0), (-1, 0), colors.grey),
+#         ('TEXTCOLOR', (0, 0), (-1, 0), colors.whitesmoke),
+#         ('ALIGN', (0, 0), (-1, -1), 'CENTER'),
+#         ('FONTNAME', (0, 0), (-1, 0), 'Helvetica-Bold'),
+#         ('FONTSIZE', (0, 0), (-1, 0), 14),
+#         ('BOTTOMPADDING', (0, 0), (-1, 0), 12),
+#         ('BACKGROUND', (0, 1), (-1, -1), colors.beige),
+#         ('GRID', (0, 0), (-1, -1), 1, colors.black),
+#         ('FONTNAME', (0, 0), (-1, 0), 'Helvetica-Bold'),
+#         ('BACKGROUND', (0, 0), (-1, 0), colors.darkgrey),
+#         ('TEXTCOLOR', (0, 0), (-1, 0), colors.whitesmoke),
+#         ('TEXTCOLOR', (0, 1), (-1, -1), colors.black),
+#         ('BACKGROUND', (0, 1), (-1, 1), colors.lightgrey),
+#         ('FONTNAME', (0, 1), (-1, 1), 'Helvetica-Bold'),
+#         ('ALIGN', (0, 1), (-1, 1), 'CENTER'),
+#         ('ALIGN', (0, 0), (-1, 0), 'CENTER'),
+#         ('TOPPADDING', (0, 0), (-1, 0), 10),
+#         ('BOTTOMPADDING', (0, 1), (-1, 1), 10),
+#         ('LEFTPADDING', (0, 0), (-1, -1), 8),
+#         ('RIGHTPADDING', (0, 0), (-1, -1), 8),
+#     ]))
+
+#     pdf.build(elements)
+
+#     # Send PDF to user
+#     return send_file('output.pdf', as_attachment=True)
 
 # from flask import Flask, render_template, request
 # import sqlite3

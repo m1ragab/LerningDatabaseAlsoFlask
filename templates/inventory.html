@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Inventory Flow In/Out</title>
+</head>
+<body>
+    <style>
+        th {
+            background-color: orange;
+        }
+    </style>
+    <table border="1">
+        <tr>
+            <th>Item Name</th>
+            <th>Quantity (Number)</th>
+            <th>Quantity (Weight)</th>
+            <th>Date</th>
+            <th>Time</th>
+            <th>Inventory Name</th>
+            <th>Flow Type</th>
+            <th>Source/Destination</th>
+            <th>Notes</th>
+        </tr>
+        {% for row in data %}
+            <tr>
+                <td>{{ row.ItemName }}</td>
+                <td>{{ row.QuantityAsNumber }}</td>
+                <td>{{ row.QuantityAsWeight }}</td>
+                <td>{{ row.Date }}</td>
+                <td>{{ row.Time }}</td>
+                <td>{{ row.InventoryName }}</td>
+                <td>{{ row.FlowType }}</td>
+                <td>{{ row.SourceOrDestination }}</td>
+                <td>{{ row.Notes }}</td>
+            </tr>
+        {% endfor %}
+    </table>
+</body>
+</html>
